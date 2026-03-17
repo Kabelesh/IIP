@@ -1,0 +1,172 @@
+/* ============================================================
+   tables.css — Clean tables matching the screenshot style
+   ============================================================ */
+
+/* Top bar above table: record count left, search+export right */
+.table-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--bg-ui);
+  border: 1px solid var(--border-subtle);
+  border-bottom: none;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+.table-record-count {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+.table-record-count strong { color: var(--text-primary); }
+.search-icon { font-size: 12px; color: var(--text-tertiary); }
+
+/* Table wrapper */
+.data-table-wrap {
+  border: 1px solid var(--border-subtle);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  background: var(--bg-ui);
+  overflow: hidden;
+  position: relative;
+}
+
+/* F69: Overflow scroll shadow indicator */
+.data-table-wrap.has-overflow::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 32px;
+  background: linear-gradient(to right, transparent, var(--bg-ui));
+  pointer-events: none;
+  z-index: 2;
+  border-radius: 0 0 var(--radius-md) 0;
+}
+
+/* When table-topbar is NOT present (standalone use) */
+.data-table-wrap:first-child {
+  border-radius: var(--radius-md);
+}
+
+/* Scrollable body */
+.table-scroll {
+  max-height: calc(100vh - 320px);
+  overflow-y: auto;
+  overflow-x: auto;
+}
+.table-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+.table-scroll::-webkit-scrollbar-track { background: var(--bg-layer); }
+.table-scroll::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius:var(--radius-xs); }
+.table-scroll::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+/* Table itself */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size:var(--font-size-sm);
+}
+
+/* Sticky header */
+.data-table thead tr { position: sticky; top: 0; z-index: 3; }
+
+.data-table th {
+  background: var(--bg-layer);
+  color: var(--text-tertiary);
+  font-size: 10px; font-weight: 700;
+  letter-spacing:var(--tracking-wide); text-transform: uppercase;
+  padding: 9px 12px; text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+  white-space: nowrap;
+  user-select: none;
+}
+.data-table th.sort-th { cursor: pointer; user-select: none; }
+.data-table th.sort-th:hover { color: var(--text-primary); background: var(--bg-hover); }
+.data-table th.sort-active { color: var(--ibm-blue-50); }
+.sort-arrow { font-size: 10px; margin-left: 3px; }
+
+.data-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tbody tr:hover td { background: var(--bg-selected); color: var(--text-primary); }
+
+/* Column types */
+.data-table .col-case-num {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--ibm-blue-50); font-weight: 600; white-space: nowrap;
+  cursor: pointer; transition: color 0.12s;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-color: rgba(15,98,254,0.3);
+}
+.data-table .col-case-num:hover { color: var(--ibm-blue-60); }
+.data-table .col-owner  { font-size: 12px; font-weight: 500; min-width: 120px; }
+.data-table .col-title  { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.data-table .col-date   { font-family: var(--font-mono); font-size: 11px; white-space: nowrap; color: var(--text-tertiary); }
+.data-table .col-sev    { text-align: center; }
+.stale-days { font-size: 10px; color: var(--red); font-family: var(--font-mono); }
+
+/* Stale row */
+.stale-row td { background: rgba(166,120,0,0.04) !important; }
+.stale-row:hover td { background: rgba(166,120,0,0.1) !important; }
+
+/* Empty state */
+.table-empty {
+  text-align: center; color: var(--text-disabled);
+  padding: 40px 20px; font-size: 13px;
+}
+
+/* Pagination */
+.table-pagination {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 14px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-layer);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  font-size: 12px; color: var(--text-tertiary);
+}
+.page-btns { display: flex; gap: 4px; }
+.page-btn {
+  padding: 3px 9px; border-radius: var(--radius-sm);
+  background: var(--bg-ui); border: 1px solid var(--border-mid);
+  color: var(--text-secondary); font-size: 11px; cursor: pointer;
+  transition:all var(--t-fast); font-family: var(--font-sans);
+}
+.page-btn:disabled { opacity: 0.4; cursor: default; }
+.page-btn:not(:disabled):hover { background: var(--bg-hover); color: var(--text-primary); }
+.page-btn.active { background: var(--ibm-blue-50); color: #fff; border-color: var(--ibm-blue-50); }
+
+/* ══════════════════════════════════════════════════════
+   TABLE ENHANCEMENTS — Production Polish
+   ══════════════════════════════════════════════════════ */
+
+/* Subtle row zebra-striping for very long tables */
+.data-table.zebra tbody tr:nth-child(even) td {
+  background: rgba(0,0,0,0.015);
+}
+
+/* Table footer with pagination — subtle background */
+.table-pagination { font-size:11px; }
+
+/* Search input inside table topbar */
+.table-topbar .form-input,
+.table-topbar .form-select,
+.table-topbar input[type="text"],
+.table-topbar input[type="search"] {
+  font-size:12px;
+  padding:5px 10px;
+  height:30px;
+  line-height:1;
+}
+
+/* Inline status badge in table cells */
+.td-status { white-space:nowrap; }
+
+/* Column widths helpers */
+.col-narrow  { width:60px;  min-width:60px; }
+.col-medium  { width:100px; min-width:100px; }
+.col-wide    { width:180px; min-width:140px; }
+.col-actions-wrap { display:flex; gap:4px; align-items:center; flex-wrap:nowrap; }
